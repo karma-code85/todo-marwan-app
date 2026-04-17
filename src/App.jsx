@@ -6,35 +6,28 @@ import { useEffect, useState } from "react"
 
 export default function App(){
   const [input,setInput]=useState("")
-  const [todos, setTodos]=useState(()=>{
-   return  JSON.parse(localStorage.getItem("todos") || [])
-  })
   const [filter ,setFilter]=useState('all')
+
+  const [todos, setTodos]=useState(()=>{
+   return  JSON.parse(localStorage.getItem("todos") || "[]")
+  })
+
   const [darkMood , setDarkMood]=useState(()=>{
-    return JSON.parse(localStorage.getItem("themes") || false)
+    return JSON.parse(localStorage.getItem("themes") || "false")
   })
 
 
 
 
-  useEffect(()=>{
-    const saved=localStorage.getItem("themes")
-    if(saved ){
-      setDarkMood(JSON.parse(saved))
 
-    }
 
-  },[])
+
   useEffect(()=>{
     localStorage.setItem("themes", JSON.stringify(darkMood))
   }, [darkMood])
 
-  useEffect(()=>{
-    const savedTodos=localStorage.getItem("todos")
-    if(savedTodos){
-      setTodos(JSON.parse(savedTodos))
-    }
-  },[])
+
+
 
   useEffect(()=>{
     localStorage.setItem("todos", JSON.stringify(todos))
@@ -79,8 +72,8 @@ export default function App(){
   return(
     <div className={`${darkMood?"bg-gray-900  min-h-screen": "bg-gray-200 min-h-screen "} relative flex justify-center items-center`}>
       <div className="  absolute top-0 w-full">
-        <img src={darkMood ?"/images/bg-mobile-dark.jpg" :"/images/bg-mobile-light.jpg"} alt=""  className="w-full md:hidden"/>
-        <img src={ darkMood? "/images/bg-desktop-dark.jpg":"/images/bg-desktop-light.jpg"} alt="" className="hidden md:flex w-full"/>
+        <img src={darkMood ?"./images/bg-mobile-dark.jpg" :"./images/bg-mobile-light.jpg"} alt=""  className="w-full md:hidden"/>
+        <img src={ darkMood? "./images/bg-desktop-dark.jpg":"./images/bg-desktop-light.jpg"} alt="" className="hidden md:flex w-full"/>
       </div>
 
 
@@ -89,7 +82,7 @@ export default function App(){
 
       <div className="    p-6  flex justify-between">
         <h1 className="text-2xl tracking-widest font-extrabold text-white">Todo </h1>
-        <div><img src={ darkMood?"/images/icon-sun.svg"  :"/images/icon-moon.svg"} alt=""
+        <div><img src={ darkMood?"./images/icon-sun.svg"  :"./images/icon-moon.svg"} alt=""
         className="cursor-pointer"
         onClick={()=>setDarkMood(!darkMood)}/>
         </div>
@@ -115,11 +108,11 @@ export default function App(){
             filterTodos.map((todo)=>(
               <div key={todo.id} className="flex w-full justify-between items-center border-b border-gray-300 space-y-4 p-2 ">
                 <div className="flex gap-4 ">
-          <img src="/images/icon-check.svg" alt="" className={todo.completed?"shadow-xl bg-purple-500 rounded-full p-2" :"cursor-pointer bg-sky-500 rounded-full p-2"} onClick={()=>toggled(todo.id)} />
+          <img src="./images/icon-check.svg" alt="" className={todo.completed?"shadow-xl bg-purple-500 rounded-full p-2" :"cursor-pointer bg-sky-500 rounded-full p-2"} onClick={()=>toggled(todo.id)} />
             <p className={todo.completed?"line-through text-gray-400":"" }>{todo.text}</p>
         </div>
         <div><img
-  src="/images/icon-cross.svg"
+  src="./images/icon-cross.svg"
   alt=""
   className="cursor-pointer"
   onClick={() => handleDelete(todo.id)}
